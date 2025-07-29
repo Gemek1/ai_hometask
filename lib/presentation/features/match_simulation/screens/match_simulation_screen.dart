@@ -5,8 +5,11 @@ import 'package:flutter_localization/flutter_localization.dart';
 import 'package:galactic_football_league/domain/models/team.dart';
 import 'package:galactic_football_league/domain/usecases/generate_news_use_case.dart';
 import 'package:galactic_football_league/presentation/features/match_simulation/match_simulation.dart';
+import 'package:galactic_football_league/presentation/theme/app_theme.dart';
+import 'package:galactic_football_league/presentation/theme/theme_provider.dart';
 import 'package:get_it/get_it.dart';
 import 'package:galactic_football_league/domain/domain.dart';
+import 'package:provider/provider.dart';
 import '../../../../localization/locales.dart';
 
 @RoutePage()
@@ -15,13 +18,22 @@ class MatchSimulationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => MatchSimulationBloc(
-        getTeamsUseCase: GetIt.instance<GetTeamsUseCase>(),
-        simulateMatchUseCase: GetIt.instance<SimulateMatchUseCase>(),
-        generateNewsUseCase: GetIt.instance<GenerateNewsUseCase>(),
-      )..add(LoadTeamsForSimulation()),
-      child: const MatchSimulationView(),
+    return AnimatedBuilder(
+      animation: Provider.of<ThemeProvider>(context),
+      builder: (context, child) => Theme(
+        data: Provider.of<ThemeProvider>(context).themeMode == ThemeMode.dark
+            ? AppTheme.darkTheme
+            : AppTheme.lightTheme,
+        child: child ?? SizedBox(),
+      ),
+      child: BlocProvider(
+        create: (context) => MatchSimulationBloc(
+          getTeamsUseCase: GetIt.instance<GetTeamsUseCase>(),
+          simulateMatchUseCase: GetIt.instance<SimulateMatchUseCase>(),
+          generateNewsUseCase: GetIt.instance<GenerateNewsUseCase>(),
+        )..add(LoadTeamsForSimulation()),
+        child: const MatchSimulationView(),
+      ),
     );
   }
 }
@@ -48,7 +60,8 @@ class MatchSimulationView extends StatelessWidget {
               TextButton(
                 onPressed: () {
                   Navigator.of(dialogContext).pop(); // Close dialog
-                  AutoRouter.of(context).pop(); // Go back from simulation screen
+                  AutoRouter.of(context)
+                      .pop(); // Go back from simulation screen
                 },
                 child: Text(AppLocale.close.getString(context)),
               ),
@@ -74,11 +87,11 @@ class MatchSimulationView extends StatelessWidget {
             ScaffoldMessenger.of(context)
               ..hideCurrentSnackBar()
               ..showSnackBar(
-                SnackBar(content: Text(
-                  state.message == 'Please select two different teams.'
-                  ? AppLocale.selectDifferentTeams.getString(context)
-                  : AppLocale.anErrorOccurred.getString(context)
-                )),
+                SnackBar(
+                    content: Text(
+                        state.message == 'Please select two different teams.'
+                            ? AppLocale.selectDifferentTeams.getString(context)
+                            : AppLocale.anErrorOccurred.getString(context))),
               );
           }
         },
@@ -89,12 +102,15 @@ class MatchSimulationView extends StatelessWidget {
           if (state is SimulationTeamsLoading) {
             return const Center(child: CircularProgressIndicator());
           }
-          if (state is SimulationTeamsLoaded || state is SimulationReadyToStart) {
+          if (state is SimulationTeamsLoaded ||
+              state is SimulationReadyToStart) {
             final teams = (state is SimulationTeamsLoaded)
                 ? state.teams
                 : (state as SimulationReadyToStart).teams;
-            final team1 = (state is SimulationReadyToStart) ? state.team1 : null;
-            final team2 = (state is SimulationReadyToStart) ? state.team2 : null;
+            final team1 =
+                (state is SimulationReadyToStart) ? state.team1 : null;
+            final team2 =
+                (state is SimulationReadyToStart) ? state.team2 : null;
 
             return Padding(
               padding: const EdgeInsets.all(16.0),
@@ -119,9 +135,12 @@ class MatchSimulationView extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       textStyle: const TextStyle(fontSize: 18),
                     ),
-                    onPressed: (team1 != null && team2 != null && team1.id != team2.id)
-                        ? () => context.read<MatchSimulationBloc>().add(StartSimulation())
-                        : null,
+                    onPressed:
+                        (team1 != null && team2 != null && team1.id != team2.id)
+                            ? () => context
+                                .read<MatchSimulationBloc>()
+                                .add(StartSimulation())
+                            : null,
                     child: Text(AppLocale.startMatch.getString(context)),
                   ),
                 ],
@@ -134,8 +153,8 @@ class MatchSimulationView extends StatelessWidget {
     );
   }
 
-  Widget _buildTeamDropdown(
-      BuildContext context, List<Team> teams, Team? selectedTeam, int teamNumber, String hint) {
+  Widget _buildTeamDropdown(BuildContext context, List<Team> teams,
+      Team? selectedTeam, int teamNumber, String hint) {
     return DropdownButtonFormField<Team>(
       value: selectedTeam,
       hint: Text(hint),
@@ -159,7 +178,8 @@ class MatchSimulationView extends StatelessWidget {
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
         ),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       ),
     );
   }

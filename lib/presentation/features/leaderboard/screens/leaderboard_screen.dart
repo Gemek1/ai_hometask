@@ -17,7 +17,6 @@ class LeaderboardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      // Создаем BLoC здесь, а зависимости для него берем из GetIt
       create: (context) => LeaderboardBloc(
         getLeagueStandingsUseCase: GetIt.instance<GetLeagueStandingsUseCase>(),
       )..add(LoadLeaderboard()),
@@ -31,7 +30,6 @@ class LeaderboardView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // ... остальной код этого виджета не меняется
     final themeProvider = Provider.of<ThemeProvider>(context);
     final isDarkMode = themeProvider.themeMode == ThemeMode.dark;
 
@@ -39,6 +37,19 @@ class LeaderboardView extends StatelessWidget {
       appBar: AppBar(
         title: Text(AppLocale.leaderboard.getString(context)),
         actions: [
+          // Кнопка смены языка
+          IconButton(
+            icon: const Icon(Icons.language),
+            onPressed: () {
+              final localization = FlutterLocalization.instance;
+              if (localization.currentLocale?.languageCode == 'en') {
+                localization.translate('ru');
+              } else {
+                localization.translate('en');
+              }
+            },
+          ),
+          // Кнопка смены темы
           IconButton(
             icon: Icon(isDarkMode ? Icons.light_mode : Icons.dark_mode),
             onPressed: () {

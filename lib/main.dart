@@ -55,14 +55,22 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    // Мы оборачиваем всё приложение в ChangeNotifierProvider.
     return ChangeNotifierProvider(
       create: (_) => ThemeProvider(),
-      child: Consumer<ThemeProvider>(
-        builder: (context, themeProvider, child) {
+      // Используем Builder, чтобы получить правильный BuildContext,
+      // который находится "под" провайдером.
+      child: Builder(
+        builder: (context) {
+          // context.watch<T>() — это современный способ слушать изменения в провайдере.
+          // Он автоматически перестроит MaterialApp при смене темы.
+          final themeProvider = context.watch<ThemeProvider>();
+
           return MaterialApp.router(
             title: 'Galactic Football League',
             theme: AppTheme.lightTheme,
             darkTheme: AppTheme.darkTheme,
+            // Связываем themeMode с состоянием из провайдера.
             themeMode: themeProvider.themeMode,
             routerConfig: _appRouter.config(),
             supportedLocales: localization.supportedLocales,
