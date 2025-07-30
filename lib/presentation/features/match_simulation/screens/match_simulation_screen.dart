@@ -155,6 +155,7 @@ class MatchSimulationView extends StatelessWidget {
 
   Widget _buildTeamDropdown(BuildContext context, List<Team> teams,
       Team? selectedTeam, int teamNumber, String hint) {
+    final theme = Theme.of(context);
     return DropdownButtonFormField<Team>(
       value: selectedTeam,
       hint: Text(hint),
@@ -162,7 +163,12 @@ class MatchSimulationView extends StatelessWidget {
       items: teams.map((Team team) {
         return DropdownMenuItem<Team>(
           value: team,
-          child: Text(team.name),
+          child: Text(
+            team.name,
+            style: theme.textTheme.bodyLarge?.copyWith(
+              color: theme.colorScheme.onSurface,
+            ),
+          ),
         );
       }).toList(),
       onChanged: (Team? newValue) {
@@ -180,6 +186,9 @@ class MatchSimulationView extends StatelessWidget {
         ),
         contentPadding:
             const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        labelStyle: theme.textTheme.bodyLarge,
+        filled: true,
+        fillColor: theme.colorScheme.surface,
       ),
     );
   }

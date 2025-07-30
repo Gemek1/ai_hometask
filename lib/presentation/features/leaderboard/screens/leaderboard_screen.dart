@@ -1,3 +1,4 @@
+import 'dart:ui';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -34,97 +35,87 @@ class LeaderboardView extends StatelessWidget {
     final isDarkMode = themeProvider.themeMode == ThemeMode.dark;
 
     return Scaffold(
+      extendBodyBehindAppBar: isDarkMode,
       appBar: AppBar(
         title: Text(AppLocale.leaderboard.getString(context)),
         actions: [
-          // Кнопка смены языка
           IconButton(
             icon: const Icon(Icons.language),
             onPressed: () {
               final localization = FlutterLocalization.instance;
-              if (localization.currentLocale?.languageCode == 'en') {
-                localization.translate('ru');
-              } else {
-                localization.translate('en');
-              }
+              localization.translate(
+                  localization.currentLocale?.languageCode == 'en' ? 'ru' : 'en');
             },
           ),
-          // Кнопка смены темы
           IconButton(
             icon: Icon(isDarkMode ? Icons.light_mode : Icons.dark_mode),
-            onPressed: () {
-              themeProvider.toggleTheme(!isDarkMode);
-            },
+            onPressed: () => themeProvider.toggleTheme(!isDarkMode),
           ),
           IconButton(
             icon: const Icon(Icons.refresh),
             tooltip: AppLocale.refresh.getString(context),
-            onPressed: () {
-              context.read<LeaderboardBloc>().add(RefreshLeaderboard());
-            },
+            onPressed: () =>
+                context.read<LeaderboardBloc>().add(RefreshLeaderboard()),
           ),
         ],
       ),
-      body: BlocBuilder<LeaderboardBloc, LeaderboardState>(
-        builder: (context, state) {
-          if (state is LeaderboardLoading) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          if (state is LeaderboardLoaded) {
-            return RefreshIndicator(
-              onRefresh: () async {
-                context.read<LeaderboardBloc>().add(RefreshLeaderboard());
-              },
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  children: [
-                    _buildHeader(context),
-                    Expanded(
-                      child: ListView.builder(
-                        itemCount: state.standings.length,
-                        itemBuilder: (context, index) {
-                          return TeamStandingRow(standing: state.standings[index]);
-                        },
-                      ),
-                    ),
+      body: Stack(
+        children: [
+          if (isDarkMode)
+            Container(
+              decoration: const BoxDecoration(
+                gradient: RadialGradient(
+                  center: Alignment.topCenter,
+                  radius: 1.0,
+                  colors: [
+                    Color(0x4400FFFF),
+                    Colors.transparent,
                   ],
                 ),
               ),
-            );
-          }
-          if (state is LeaderboardError) {
-            return Center(child: Text(state.message));
-          }
-          return const Center(child: Text('Something went wrong.'));
-        },
+            ),
+          // ✅ Оборачиваем BlocBuilder в SafeArea
+          SafeArea(
+            // Отключаем отступ снизу, чтобы FAB не мешал
+            bottom: false,
+            child: BlocBuilder<LeaderboardBloc, LeaderboardState>(
+              builder: (context, state) {
+                if (state is LeaderboardLoading) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                if (state is LeaderboardLoaded) {
+                  return RefreshIndicator(
+                    onRefresh: () async => context
+                        .read<LeaderboardBloc>()
+                        .add(RefreshLeaderboard()),
+                    child: ListView.separated(
+                      // Убираем верхний отступ, т.к. SafeArea его обеспечивает
+                      padding: const EdgeInsets.fromLTRB(16, 0, 16, 90),
+                      itemCount: state.standings.length,
+                      itemBuilder: (context, index) {
+                        return TeamStandingRow(
+                          rank: index + 1,
+                          standing: state.standings[index],
+                        );
+                      },
+                      separatorBuilder: (context, index) =>
+                          const SizedBox(height: 12),
+                    ),
+                  );
+                }
+                if (state is LeaderboardError) {
+                  return Center(child: Text(state.message));
+                }
+                return const Center(child: Text('Something went wrong.'));
+              },
+            ),
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          context.router.push(const MatchSimulationRoute());
-        },
+        onPressed: () => context.router.push(const MatchSimulationRoute()),
         label: Text(AppLocale.startNewMatch.getString(context)),
         icon: const Icon(Icons.add),
-      ),
-    );
-  }
-
-  Widget _buildHeader(BuildContext context) {
-    final headerStyle = Theme.of(context).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold);
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-      decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surface.withOpacity(0.5),
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Row(
-        children: [
-          Expanded(flex: 5, child: Text(AppLocale.team.getString(context), style: headerStyle)),
-          Expanded(flex: 1, child: Text(AppLocale.w.getString(context), style: headerStyle, textAlign: TextAlign.center)),
-          Expanded(flex: 1, child: Text(AppLocale.d.getString(context), style: headerStyle, textAlign: TextAlign.center)),
-          Expanded(flex: 1, child: Text(AppLocale.l.getString(context), style: headerStyle, textAlign: TextAlign.center)),
-          Expanded(flex: 1, child: Text(AppLocale.pts.getString(context), style: headerStyle, textAlign: TextAlign.center)),
-        ],
       ),
     );
   }

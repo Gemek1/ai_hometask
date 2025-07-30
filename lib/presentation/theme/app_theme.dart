@@ -1,63 +1,121 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class AppTheme {
-  // Основной цвет, из которого будут сгенерированы все остальные оттенки
-  static const _seedColor = Colors.blue;
+  // --- Цветовая палитра ---
+  static const _primaryNeonCyan = Color(0xFF00FFFF);
+  static const _primaryDeepSpace = Color(0xFF0D0A24);
+  static const _surfaceGlass = Color(0x1AFFFFFF);
+  static const _accentMagenta = Color(0xFFFF00FF);
+  static const _lightSeedColor = Colors.blue;
 
-  // --- СВЕТЛАЯ ТЕМА ---
-  static final ThemeData lightTheme = ThemeData(
-    // Включаем современный дизайн Material 3
+  // --- Базовая тема, от которой наследуются обе ---
+  static final _baseTheme = ThemeData(
     useMaterial3: true,
-    // Генерируем полную, согласованную цветовую схему
+    fontFamily: GoogleFonts.exo2().fontFamily,
+  );
+
+  // --- ТЕМНАЯ ТЕМА (Основная) ---
+  static final ThemeData darkTheme = _baseTheme.copyWith(
+    brightness: Brightness.dark,
+    scaffoldBackgroundColor: _primaryDeepSpace,
     colorScheme: ColorScheme.fromSeed(
-      seedColor: _seedColor,
+      seedColor: _primaryNeonCyan,
+      brightness: Brightness.dark,
+      primary: _primaryNeonCyan,
+      secondary: _accentMagenta,
+      background: _primaryDeepSpace,
+      surface: _primaryDeepSpace,
+    ),
+    appBarTheme: AppBarTheme(
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      titleTextStyle: GoogleFonts.exo2(
+        fontSize: 22,
+        fontWeight: FontWeight.bold,
+        color: _primaryNeonCyan,
+      ),
+      iconTheme: const IconThemeData(color: _primaryNeonCyan),
+    ),
+    bottomNavigationBarTheme: BottomNavigationBarThemeData(
+      backgroundColor: _primaryDeepSpace.withOpacity(0.8),
+      selectedItemColor: _primaryNeonCyan,
+      unselectedItemColor: Colors.grey[600],
+      elevation: 0,
+    ),
+    cardTheme: CardThemeData(
+      color: _surfaceGlass,
+      elevation: 0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+        side: BorderSide(color: _surfaceGlass),
+      ),
+    ),
+    floatingActionButtonTheme: const FloatingActionButtonThemeData(
+      backgroundColor: _primaryNeonCyan,
+      foregroundColor: _primaryDeepSpace,
+      shape: CircleBorder(),
+    ),
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: _primaryNeonCyan,
+        foregroundColor: _primaryDeepSpace,
+        shape: const StadiumBorder(),
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+        textStyle: GoogleFonts.exo2(fontSize: 16, fontWeight: FontWeight.bold),
+      ),
+    ),
+    textTheme: _baseTheme.textTheme.apply(
+      bodyColor: Colors.white,
+      displayColor: _primaryNeonCyan,
+    ),
+  );
+
+  // --- УЛУЧШЕННАЯ СВЕТЛАЯ ТЕМА ---
+  static final ThemeData lightTheme = _baseTheme.copyWith(
+    brightness: Brightness.light,
+    scaffoldBackgroundColor: Colors.grey.shade200,
+    colorScheme: ColorScheme.fromSeed(
+      seedColor: _lightSeedColor,
       brightness: Brightness.light,
     ),
-    // Ниже можно переопределить стили для конкретных виджетов,
-    // если сгенерированные по умолчанию не устраивают.
     appBarTheme: AppBarTheme(
-      backgroundColor: _seedColor,
+      backgroundColor: _lightSeedColor,
       foregroundColor: Colors.white,
       elevation: 2,
-      titleTextStyle: const TextStyle(
+      titleTextStyle: GoogleFonts.exo2(
         color: Colors.white,
-        fontSize: 20,
+        fontSize: 22,
         fontWeight: FontWeight.bold,
       ),
+    ),
+    bottomNavigationBarTheme: BottomNavigationBarThemeData(
+      selectedItemColor: _lightSeedColor,
+      unselectedItemColor: Colors.grey[700],
+      backgroundColor: Colors.white,
+      elevation: 4,
+    ),
+    cardTheme: CardThemeData(
+      elevation: 2,
+      color: Colors.white,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
     ),
     floatingActionButtonTheme: FloatingActionButtonThemeData(
       backgroundColor: Colors.amber[700],
       foregroundColor: Colors.black,
     ),
-    cardTheme: CardThemeData(
-      elevation: 1,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: _lightSeedColor,
+        foregroundColor: Colors.white,
+        shape: const StadiumBorder(),
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+        textStyle: GoogleFonts.exo2(fontSize: 16, fontWeight: FontWeight.bold),
+      ),
     ),
-  );
-
-  // --- ТЕМНАЯ ТЕМА ---
-  static final ThemeData darkTheme = ThemeData(
-    useMaterial3: true,
-    // Генерируем полную темную палитру из того же основного цвета
-    colorScheme: ColorScheme.fromSeed(
-      seedColor: _seedColor,
-      brightness: Brightness.dark, // Главное отличие - яркость
-    ),
-    // Переопределяем стили для темной темы
-    appBarTheme: AppBarTheme(
-      elevation: 2,
-      // В темной теме AppBar может иметь цвет фона по умолчанию,
-      // сгенерированный из colorScheme.surface, что выглядит хорошо.
-      // Но если нужно жестко задать, можно так:
-      // backgroundColor: Colors.grey[900],
-    ),
-    floatingActionButtonTheme: FloatingActionButtonThemeData(
-      backgroundColor: Colors.tealAccent[400],
-      foregroundColor: Colors.black,
-    ),
-    cardTheme: CardThemeData(
-      elevation: 1,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+    textTheme: _baseTheme.textTheme.apply(
+      bodyColor: Colors.black87,
+      displayColor: _lightSeedColor,
     ),
   );
 }
