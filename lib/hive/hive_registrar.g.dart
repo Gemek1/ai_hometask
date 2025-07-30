@@ -7,9 +7,11 @@ import 'package:galactic_football_league/hive/hive_adapters.dart';
 
 extension HiveRegistrar on HiveInterface {
   void registerAdapters() {
+    registerAdapter(LaunchDtoAdapter());
     registerAdapter(LeagueStandingAdapter());
     registerAdapter(MatchResultAdapter());
     registerAdapter(NewsItemAdapter());
+    registerAdapter(RocketDtoAdapter());
     registerAdapter(TeamAdapter());
     registerAdapter(TeamDtoAdapter());
   }
@@ -17,9 +19,11 @@ extension HiveRegistrar on HiveInterface {
 
 extension IsolatedHiveRegistrar on IsolatedHiveInterface {
   void registerAdapters() {
+    registerAdapter(LaunchDtoAdapter());
     registerAdapter(LeagueStandingAdapter());
     registerAdapter(MatchResultAdapter());
     registerAdapter(NewsItemAdapter());
+    registerAdapter(RocketDtoAdapter());
     registerAdapter(TeamAdapter());
     registerAdapter(TeamDtoAdapter());
   }

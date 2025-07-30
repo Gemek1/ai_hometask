@@ -253,3 +253,95 @@ class TeamDtoAdapter extends TypeAdapter<TeamDto> {
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }
+
+class RocketDtoAdapter extends TypeAdapter<RocketDto> {
+  @override
+  final typeId = 5;
+
+  @override
+  RocketDto read(BinaryReader reader) {
+    final numOfFields = reader.readByte();
+    final fields = <int, dynamic>{
+      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+    };
+    return RocketDto(
+      id: fields[0] as String,
+      name: fields[1] as String,
+      description: fields[2] as String,
+      height: (fields[3] as num).toInt(),
+      mass: (fields[4] as num).toInt(),
+      flickrImages: (fields[5] as List).cast<String>(),
+    );
+  }
+
+  @override
+  void write(BinaryWriter writer, RocketDto obj) {
+    writer
+      ..writeByte(6)
+      ..writeByte(0)
+      ..write(obj.id)
+      ..writeByte(1)
+      ..write(obj.name)
+      ..writeByte(2)
+      ..write(obj.description)
+      ..writeByte(3)
+      ..write(obj.height)
+      ..writeByte(4)
+      ..write(obj.mass)
+      ..writeByte(5)
+      ..write(obj.flickrImages);
+  }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is RocketDtoAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
+}
+
+class LaunchDtoAdapter extends TypeAdapter<LaunchDto> {
+  @override
+  final typeId = 6;
+
+  @override
+  LaunchDto read(BinaryReader reader) {
+    final numOfFields = reader.readByte();
+    final fields = <int, dynamic>{
+      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+    };
+    return LaunchDto(
+      id: fields[0] as String,
+      name: fields[1] as String,
+      date: fields[2] as DateTime,
+      success: fields[3] as bool,
+    );
+  }
+
+  @override
+  void write(BinaryWriter writer, LaunchDto obj) {
+    writer
+      ..writeByte(4)
+      ..writeByte(0)
+      ..write(obj.id)
+      ..writeByte(1)
+      ..write(obj.name)
+      ..writeByte(2)
+      ..write(obj.date)
+      ..writeByte(3)
+      ..write(obj.success);
+  }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is LaunchDtoAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
+}

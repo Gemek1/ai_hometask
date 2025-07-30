@@ -1,4 +1,5 @@
 class AppConstants {
+  static const String rocketsBox = 'rockets_box';
   static const String teamsBox = 'teams_box';
   static const String matchesBox = 'matches_box';
   static const String standingsBox = 'standings_box';

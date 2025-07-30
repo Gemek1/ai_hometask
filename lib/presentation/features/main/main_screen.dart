@@ -16,9 +16,11 @@ class MainScreen extends StatelessWidget {
         LeaderboardRoute(),
         MatchHistoryRoute(),
         NewsRoute(),
+        RocketTeamsRoute(), // ✅ Новый роут
       ],
       bottomNavigationBuilder: (_, tabsRouter) {
         return BottomNavigationBar(
+          type: BottomNavigationBarType.fixed, // Чтобы все табы поместились
           currentIndex: tabsRouter.activeIndex,
           onTap: tabsRouter.setActiveIndex,
           items: [
@@ -33,6 +35,11 @@ class MainScreen extends StatelessWidget {
             BottomNavigationBarItem(
               icon: const Icon(Icons.article),
               label: AppLocale.news.getString(context),
+            ),
+            // ✅ Новый таб
+            const BottomNavigationBarItem(
+              icon: Icon(Icons.rocket_launch),
+              label: 'Команды',
             ),
           ],
         );

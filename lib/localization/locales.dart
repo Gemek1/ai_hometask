@@ -28,6 +28,9 @@ mixin AppLocale {
   static const String newsTemplate2 = 'newsTemplate2';
   static const String newsTemplate3 = 'newsTemplate3';
   static const String newsTemplate4 = 'newsTemplate4';
+  static const String spacexTeams = 'spacexTeams';
+  static const String noDataFound = 'noDataFound';
+  static const String loadingError = 'loadingError';
 
   static const Map<String, dynamic> EN = {
     appTitle: 'Galactic Football',
@@ -55,10 +58,17 @@ mixin AppLocale {
     error: 'Error',
     anErrorOccurred: 'An error occurred. Please try again.',
     selectDifferentTeams: 'Please select two different teams.',
-    newsTemplate1: 'In an incredible showdown, {team1} secured a dramatic victory over {team2} with a final score of {score1}-{score2}! Their offensive power was simply unstoppable.',
-    newsTemplate2: '{team2} couldn\'t handle the heat as {team1} dominated the field, winning {score1}-{score2}. A memorable performance!',
-    newsTemplate3: 'A nail-biter of a match ended in a {score1}-{score2} draw between {team1} and {team2}, leaving fans on the edge of their seats.',
-    newsTemplate4: 'It was a tough day for {team2}, who fell to {team1} with a score of {score1}-{score2}. {team1} showed true champion spirit.',
+    newsTemplate1:
+        'In an incredible showdown, {team1} secured a dramatic victory over {team2} with a final score of {score1}-{score2}! Their offensive power was simply unstoppable.',
+    newsTemplate2:
+        '{team2} couldn\'t handle the heat as {team1} dominated the field, winning {score1}-{score2}. A memorable performance!',
+    newsTemplate3:
+        'A nail-biter of a match ended in a {score1}-{score2} draw between {team1} and {team2}, leaving fans on the edge of their seats.',
+    newsTemplate4:
+        'It was a tough day for {team2}, who fell to {team1} with a score of {score1}-{score2}. {team1} showed true champion spirit.',
+    spacexTeams: 'SpaceX Teams',
+    noDataFound: 'No data found.',
+    loadingError: 'Loading error: {message}',
   };
 
   static const Map<String, dynamic> RU = {
@@ -87,9 +97,16 @@ mixin AppLocale {
     error: 'Ошибка',
     anErrorOccurred: 'Произошла ошибка. Пожалуйста, попробуйте еще раз.',
     selectDifferentTeams: 'Пожалуйста, выберите две разные команды.',
-    newsTemplate1: 'В невероятном поединке {team1} одержала драматическую победу над {team2} со счетом {score1}-{score2}! Их атакующая мощь была просто неудержима.',
-    newsTemplate2: '{team2} не справилась с натиском, так как {team1} доминировала на поле, выиграв {score1}-{score2}. Запоминающееся выступление!',
-    newsTemplate3: 'Напряженный матч между {team1} и {team2} завершился вничью {score1}-{score2}, оставив болельщиков в напряжении до самого конца.',
-    newsTemplate4: 'Это был тяжелый день для {team2}, которая уступила {team1} со счетом {score1}-{score2}. {team1} проявила настоящий чемпионский дух.',
+    newsTemplate1:
+        'В невероятном поединке {team1} одержала драматическую победу над {team2} со счетом {score1}-{score2}! Их атакующая мощь была просто неудержима.',
+    newsTemplate2:
+        '{team2} не справилась с натиском, так как {team1} доминировала на поле, выиграв {score1}-{score2}. Запоминающееся выступление!',
+    newsTemplate3:
+        'Напряженный матч между {team1} и {team2} завершился вничью {score1}-{score2}, оставив болельщиков в напряжении до самого конца.',
+    newsTemplate4:
+        'Это был тяжелый день для {team2}, которая уступила {team1} со счетом {score1}-{score2}. {team1} проявила настоящий чемпионский дух.',
+    spacexTeams: 'Команды SpaceX',
+    noDataFound: 'Данные не найдены.',
+    loadingError: 'Ошибка загрузки: {message}',
   };
 }

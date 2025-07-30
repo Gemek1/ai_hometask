@@ -27,6 +27,22 @@ class LeaderboardRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [LoginScreen]
+class LoginRoute extends PageRouteInfo<void> {
+  const LoginRoute({List<PageRouteInfo>? children})
+      : super(LoginRoute.name, initialChildren: children);
+
+  static const String name = 'LoginRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const LoginScreen();
+    },
+  );
+}
+
+/// generated route for
 /// [MainScreen]
 class MainRoute extends PageRouteInfo<void> {
   const MainRoute({List<PageRouteInfo>? children})
@@ -86,6 +102,38 @@ class NewsRoute extends PageRouteInfo<void> {
     name,
     builder: (data) {
       return const NewsScreen();
+    },
+  );
+}
+
+/// generated route for
+/// [RocketTeamsScreen]
+class RocketTeamsRoute extends PageRouteInfo<void> {
+  const RocketTeamsRoute({List<PageRouteInfo>? children})
+      : super(RocketTeamsRoute.name, initialChildren: children);
+
+  static const String name = 'RocketTeamsRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const RocketTeamsScreen();
+    },
+  );
+}
+
+/// generated route for
+/// [SplashScreen]
+class SplashRoute extends PageRouteInfo<void> {
+  const SplashRoute({List<PageRouteInfo>? children})
+      : super(SplashRoute.name, initialChildren: children);
+
+  static const String name = 'SplashRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const SplashScreen();
     },
   );
 }

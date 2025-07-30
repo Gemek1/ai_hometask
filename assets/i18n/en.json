@@ -27,5 +27,8 @@
   "newsTemplate1": "In an incredible showdown, {team1} secured a dramatic victory over {team2} with a final score of {score1}-{score2}! Their offensive power was simply unstoppable.",
   "newsTemplate2": "{team2} couldn't handle the heat as {team1} dominated the field, winning {score1}-{score2}. A memorable performance!",
   "newsTemplate3": "A nail-biter of a match ended in a {score1}-{score2} draw between {team1} and {team2}, leaving fans on the edge of their seats.",
-  "newsTemplate4": "It was a tough day for {team2}, who fell to {team1} with a score of {score1}-{score2}. {team1} showed true champion spirit."
+  "newsTemplate4": "It was a tough day for {team2}, who fell to {team1} with a score of {score1}-{score2}. {team1} showed true champion spirit.",
+  "spacexTeams": "SpaceX Teams",
+  "noDataFound": "No data found.",
+  "loadingError": "Loading error: {message}"
 }
